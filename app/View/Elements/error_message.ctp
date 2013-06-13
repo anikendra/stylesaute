@@ -1,0 +1,1 @@
+<div class="alert mt50"><a class="close" data-dismiss="alert" href="#">&times;</a><p class="text-error"><?php echo $message; ?></p></div>
