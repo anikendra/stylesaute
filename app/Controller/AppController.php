@@ -273,4 +273,47 @@ class AppController extends Controller {
 
     }
 
+    public function compress($celebId = 1) {
+    	// Processing may take a while
+		set_time_limit(0);
+    	App::import('Vendor','SmushIt',array('file' =>'SmushIt.class.php'));
+    	$modelClass = $this->modelClass; 
+    	$folderName = Inflector::pluralize(strtolower($modelClass));
+    	$dirPath = WWW_ROOT.'uploads'.DS.$celebId.DS.$folderName; 
+    	// echo $dirPath;
+    	if(is_dir($dirPath)){
+    		$files = glob($dirPath.'/*');
+    		$urls = array();
+    		foreach($files AS $file){
+    			$urls[] = FULL_BASE_URL.'/uploads/'.$celebId.'/'.$folderName.'/'.basename($file);
+    		}
+    		// debug($urls);die;
+ 
+    		// Make batches of 3 images
+			$files = array_chunk($urls, 3);
+
+			// Take a batch of three files
+			foreach($urls as $batch) {
+
+			    try {
+			        // Compress the batch
+			        $smushit = new SmushIt($batch);
+			        debug($smushit);
+			        // And finaly, replace original files by their compressed version
+			        foreach($smushit->get() as $file) {
+			            // Sometimes, Smush.it convert files. We don't want that to happen.
+			            $src = pathinfo($file->source, PATHINFO_EXTENSION);
+			            $dst = pathinfo($file->destination, PATHINFO_EXTENSION);
+			            if ($src == $dst AND copy($file->destination, $file->source)) {
+			                // Success !
+			            }
+			        }
+			    } catch(Exception $e) {
+			        continue;
+			    }
+			}
+    	}else{
+    		die('Not a directory!');
+    	}
+    }
 }
