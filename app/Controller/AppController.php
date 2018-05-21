@@ -290,7 +290,8 @@ class AppController extends Controller {
     		// debug($urls);die;
  
     		// Make batches of 3 images
-			$files = array_chunk($urls, 3);
+			//$files = array_chunk($urls, 3);
+			$urls = array_chunk($files, 3);
 
 			// Take a batch of three files
 			foreach($urls as $batch) {

@@ -142,7 +142,7 @@ class BrandsController extends AppController {
 			}
 		}
 		$profiles = $this->Brand->Profile->find('list');
-		$types = array('shirt'=>'Shirt','pant'=>'Pant');
+		$types = array('both'=>'Both','shirt'=>'Shirt','pant'=>'Pant');
 		$this->set(compact('profiles','types'));
 	}
 

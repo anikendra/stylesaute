@@ -35,9 +35,9 @@ display: inline;
 		</div>
 	</div>
 	<?php
-		echo $this->Form->input('logo');
+		echo $this->Form->input('logo',array('type'=>'hidden'));
 		echo $this->Form->input('type');
-		echo $this->Form->input('Profile');
+		echo $this->Form->input('Profile',array('type'=>'hidden'));
 	?>
 	</fieldset>
 <?php echo $this->Form->end(__('Submit')); ?>
